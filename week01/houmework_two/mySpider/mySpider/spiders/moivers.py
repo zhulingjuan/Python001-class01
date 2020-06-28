@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from bs4 import BeautifulSoup as bs
 from mySpider.items import MyspiderItem
+from scrapy.selector import Selector
 
 
 class MoiversSpider(scrapy.Spider):
@@ -17,16 +17,15 @@ class MoiversSpider(scrapy.Spider):
 
     # 解析函数
     def parse(self, response):
-        print('----------------------------------------------------------------------------------')
-        print(response.text)
-        print('---------------------------------------------------------------------------------')
-        soup = bs(response.text, 'html.parser')
-        for tags in soup.find_all('div', attrs={'class': 'movie-hover-info'}):
+           for movie in Selector(response=response).xpath('//div[@class="movie-hover-info"]'):
             item = MyspiderItem()
             # 电影名称
-            item['title'] = tags.find('span', attrs={'class': 'name'}).text
+            item['title'] = movie.xpath('div[2]/text()[2]').extract_first().strip()
+            print(item['title'])
             # 电影类型
-            item['link'] = tags.find_all('div', attrs={'class': 'movie-hover-title'})[1].text
+            item['link'] = movie.xpath('div[2]/text()[2]').extract_first().strip()
             # 上映时间
-            item['content'] = tags.find_all('div', attrs={'class': 'movie-hover-brief'})[0].text
+            item['content'] = movie.xpath('div[4]/text()[2]').extract_first().strip()
             yield item
+
+
