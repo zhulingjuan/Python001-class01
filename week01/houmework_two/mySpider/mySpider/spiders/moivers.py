@@ -17,15 +17,20 @@ class MoiversSpider(scrapy.Spider):
 
     # 解析函数
     def parse(self, response):
-           for movie in Selector(response=response).xpath('//div[@class="movie-hover-info"]'):
-            item = MyspiderItem()
-            # 电影名称
-            item['title'] = movie.xpath('div[2]/text()[2]').extract_first().strip()
-            print(item['title'])
-            # 电影类型
-            item['link'] = movie.xpath('div[2]/text()[2]').extract_first().strip()
-            # 上映时间
-            item['content'] = movie.xpath('div[4]/text()[2]').extract_first().strip()
-            yield item
+        count = 0
+        for movie in Selector(response=response).xpath('//div[@class="movie-hover-info"]'):
+            if count < 10:
+                item = MyspiderItem()
+                # 电影名称
+                item['title'] = movie.xpath('div[2]/@title').extract_first().strip()
+                print(item['title'])
+                # 电影类型
+                item['link'] = movie.xpath('div[2]/text()[2]').extract_first().strip()
+                # 上映时间
+                item['content'] = movie.xpath('div[4]/text()[2]').extract_first().strip()
+                count += 1
+                yield item
+            else:
+                break    
 
 
