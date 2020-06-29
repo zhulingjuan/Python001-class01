@@ -21,11 +21,12 @@ header = {
 myurl = 'https://maoyan.com/films?showType=3'
 
 response = requests.get(myurl,headers=header)
-print()
-print(response.text)
+
 bs_info = bs(response.text, 'html.parser')
 
 mylist = []
+#取值前10个
+count = 0
 # Python 中使用 for in 形式的循环,Python使用缩进来做语句块分隔
 for tags in bs_info.find_all('div', attrs={'class': 'movie-hover-info'}):
     # 电影名称
@@ -36,7 +37,12 @@ for tags in bs_info.find_all('div', attrs={'class': 'movie-hover-info'}):
     movie_type = tags.find_all('div', attrs={'class': 'movie-hover-title'})[1].text
     # 上映时间
     plan_date = tags.find_all('div', attrs={'class': 'movie-hover-brief'})[0].text
-    mylist.append([film_name, movie_type, plan_date])
+    if count < 10 :
+        mylist.append([film_name, movie_type, plan_date])
+        count += 1
+    else :
+        break    
+    
 movie1 = pd.DataFrame(data = mylist)
 # windows需要使用gbk字符集
 movie1.to_csv('./movie1.csv', encoding='utf8', index=True, header=False)    
