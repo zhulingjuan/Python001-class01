@@ -18,8 +18,14 @@ class MyspiderPipeline:
         link = item['link']
         content = item['content']
         sql = "insert into movie_item(movie_name, movie_time, movie_type) VALUES (%s, %s, %s)"
-        self.cur.execute(sql, (title, content, link))
-        self.conn.commit()
+        try:
+            self.cur.execute(sql, (title, content, link))
+            self.conn.commit()
+        except BaseException:
+            print('数据插入失败')
+        else:
+            print('数据插入成功')
+        
 
     def close_spider(self, spider):
         self.cur.close()
