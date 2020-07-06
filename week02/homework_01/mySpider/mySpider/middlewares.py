@@ -5,8 +5,9 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-from scrapy import signals
 
+from scrapy import signals
+from .githubIP import getIP
 
 class MyspiderSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -69,15 +70,8 @@ class MyspiderDownloaderMiddleware:
         return s
 
     def process_request(self, request, spider):
-        # Called for each request that goes through the downloader
-        # middleware.
-
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
+        # 这个github上的代理ip，只能访问http，但是先这样吧
+        request.meta['proxy'] = getIP()
         return None
 
     def process_response(self, request, response, spider):
