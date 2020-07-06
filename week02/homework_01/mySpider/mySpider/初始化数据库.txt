@@ -1,0 +1,13 @@
+CREATE DATABASE maoyan
+
+use maoyan
+
+CREATE TABLE `movie_item` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `movie_name` varchar(40) DEFAULT NULL COMMENT '电影名称',
+  `movie_time` varchar(40) DEFAULT NULL COMMENT '电影上映时间',
+  `movie_type` varchar(40) DEFAULT NULL COMMENT '电影类型',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='item';
