@@ -39,7 +39,7 @@ def IsOpen(ip,port):
         print('is down')
 
 def IsOpenPorts(ip):
-    for i in range(10) :
+    for i in range(1024) :
         IsOpen(ip,i)
 
 
@@ -47,6 +47,7 @@ def IsOpenPorts(ip):
 # 写数据进程执行的代码:
 def write(q,lock):
     lock.acquire() #加上锁
+    # 替换成输入的
     for value in ['61.135.169.125','10.253.212.42']:
         #print(value)
         q.put(value)        
