@@ -16,11 +16,11 @@ data2 = data1.iloc[0:10]
  
 #3. SELECT id FROM data;  //id 是 data 表的特定一列
 df2 = pd.DataFrame([
-                     [1, 20], 
-                     [2, 30], 
-                     [3, 80], 
-                     [4, 100], 
-                     [1005, 120]
+                     [1, 30], 
+                     [1, 30], 
+                     [2, 80], 
+                     [2, 100], 
+                     [10, 120]
                     ])
 df2.columns= ['id', 'age']
 #print(df2['id'])
@@ -36,14 +36,33 @@ df2.columns= ['id', 'age']
  
 #6. SELECT id,COUNT(DISTINCT order_id) FROM table1 GROUP BY id;
 df2.columns= ['id', 'order_id']
-subDf = df2.drop_duplicates('order_id').groupby('id')
+#subDf = df2.groupby('id').nunique('order_id')
 
-print(subDf)
+#print(subDf)
  
 #7. SELECT * FROM table1 t1 INNER JOIN table2 t2 ON t1.id = t2.id;
+df3 = pd.DataFrame([
+                     [1, 30], 
+                     [4, 30], 
+                     [2, 80], 
+                     [3, 100], 
+                     [10, 120]
+                    ])
+df3.columns= ['id', 'haha']
+data7 = pd.merge(df3, df2, on='id', how='inner')
+print(data7)
+
  
 #8. SELECT * FROM table1 UNION SELECT * FROM table2;
+data8 = pd.concat([df3, df2])
+#print(data8)
+
  
 #9. DELETE FROM table1 WHERE id=10;
+data3 = df2.drop(df2[(df2['id'] == 10)].index)
+#print(data3)
+
  
 #10. ALTER TABLE table1 DROP COLUMN column_name;
+data4 = df2.drop(axis = 1, columns= 'order_id')
+#print(data4)
